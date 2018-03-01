@@ -6,6 +6,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 const dataFilePath = "register.whisk"
@@ -73,5 +74,11 @@ func writeRegister() {
 
 // sweepRegister removes pages that have expired
 func sweepRegister() {
-	// TODO
+	currTime := time.Now().Unix()
+	for _, v := range pageRegister {
+		if currTime > v.expiration {
+			removePage(v.id)
+			removeFromRegister(v.id)
+		}
+	}
 }

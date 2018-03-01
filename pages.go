@@ -49,10 +49,6 @@ func createPage(sourcePath string) {
 
 // removePage from file system and register
 func removePage(id string) {
-	if !pageInRegister(id) {
-		return
-	}
-	removeFromRegister(id)
 	os.Remove(pagesDir + id + ".html")
 }
 
