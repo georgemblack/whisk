@@ -21,7 +21,7 @@ func createPage(sourcePath string) {
 	// read sample file
 	source, err := ioutil.ReadFile(sourcePath)
 	if err != nil {
-		log.Fatalf("Failed reading file: %s", err)
+		log.Printf("Error creating page: %s\n", err)
 		return
 	}
 
@@ -40,7 +40,7 @@ func createPage(sourcePath string) {
 	// write new file
 	output, err := os.Create(pagesDir + page.id + ".html")
 	if err != nil {
-		log.Fatalf("Failed to create file: %s", err)
+		log.Printf("Error creating page: %s\n", err)
 		return
 	}
 	output.Write(htmlSafe)
@@ -49,7 +49,10 @@ func createPage(sourcePath string) {
 
 // removePage from file system and register
 func removePage(id string) {
-	os.Remove(pagesDir + id + ".html")
+	err := os.Remove(pagesDir + id + ".html")
+	if err != nil {
+		log.Printf("Error removing page: %s\n", err)
+	}
 }
 
 // generatePageID that is unique

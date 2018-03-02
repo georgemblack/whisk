@@ -1,20 +1,25 @@
 package whisk
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 )
 
 const (
 	idCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	idLength     = 6
 	pagesDir     = "pages/"
+	logFilePath  = "log.whisk"
+	port         = "8081"
 )
 
-// Launch starts server, initializes register, etc.
+// Launch starts server, initializes log, register, etc.
 func Launch() {
+
+	initializeLog()
 	initializeRegister()
-	defer writeRegister()
 
 	http.HandleFunc("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {})
 	http.HandleFunc("/new", func(w http.ResponseWriter, r *http.Request) {
@@ -35,5 +40,15 @@ func Launch() {
 		}
 		http.ServeFile(w, r, pagesDir+address+".html")
 	})
-	log.Fatal(http.ListenAndServe(":8081", nil))
+	log.Printf("Starting server on port %s...\n", port)
+	fmt.Printf("Starting server on port %s...\n", port)
+	log.Fatal(http.ListenAndServe(":"+port, nil))
+}
+
+func initializeLog() {
+	f, err := os.OpenFile(logFilePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		log.Fatalf("Error initializing log file: %s\n", err)
+	}
+	log.SetOutput(f)
 }

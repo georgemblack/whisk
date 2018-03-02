@@ -2,7 +2,7 @@ package whisk
 
 import (
 	"bufio"
-	"fmt"
+	"log"
 	"os"
 	"strconv"
 	"strings"
@@ -22,25 +22,31 @@ func initializeRegister() {
 	input, err := os.Open(dataFilePath)
 	if err != nil {
 		if os.IsNotExist(err) {
-			fmt.Println("file doesn't exist")
+			log.Printf("File %s not detected, initialized empty page register\n", dataFilePath)
 			return // file doesn't exist, we're done
 		}
-		fmt.Println("other error")
-		// other error
-		return
+		log.Printf("Error opening %s: %s\n", dataFilePath, err)
+		return // other error
 	}
 	defer input.Close()
 
 	// register each listed page
+	numPages := 0
 	scanner := bufio.NewScanner(input)
 	for scanner.Scan() {
 		line := strings.Split(scanner.Text(), "|")
-		exp, _ := strconv.ParseInt(line[1], 10, 64)
+		exp, err := strconv.ParseInt(line[1], 10, 64)
+		if err != nil {
+			log.Printf("Error parsing %s: %s", dataFilePath, err)
+			return
+		}
 		addToRegister(Page{
 			id:         line[0],
 			expiration: exp,
 		})
+		numPages++
 	}
+	log.Printf("Initialized page register with %d items\n", numPages)
 }
 
 // addToRegister a single page object
@@ -63,6 +69,7 @@ func pageInRegister(id string) bool {
 func writeRegister() {
 	output, err := os.Create(dataFilePath)
 	if err != nil {
+		log.Printf("Error creating %s: %s\n", dataFilePath, err)
 		return
 	}
 	for _, v := range pageRegister {
