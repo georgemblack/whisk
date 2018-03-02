@@ -6,12 +6,14 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"sync"
 	"time"
 )
 
 const dataFilePath = "register.whisk"
 
 var register map[string]Page
+var lock = sync.RWMutex{}
 
 // initializeRegister allocates memory for page register,
 // imports existing pages
@@ -51,17 +53,23 @@ func initializeRegister() {
 
 // addToRegister a single page object
 func addToRegister(page Page) {
+	lock.Lock()
 	register[page.id] = page
+	lock.Unlock()
 }
 
 // removeFromRegister a single page matching id
 func removeFromRegister(id string) {
+	lock.Lock()
 	delete(register, id)
+	lock.Unlock()
 }
 
 // pageInRegister returns true if id is in register
 func pageInRegister(id string) bool {
+	lock.RLock()
 	_, ok := register[id]
+	lock.RUnlock()
 	return ok
 }
 
@@ -72,20 +80,32 @@ func writeRegister() {
 		log.Printf("Error creating %s: %s\n", dataFilePath, err)
 		return
 	}
+	lock.RLock()
 	for _, v := range register {
 		data := []byte(v.id + "|" + strconv.FormatInt(v.expiration, 10) + "\n")
 		output.Write(data)
 	}
+	lock.RUnlock()
 	output.Close()
 }
 
 // sweepRegister removes pages that have expired
 func sweepRegister() {
 	currTime := time.Now().Unix()
+	ids := []string{} // pages to remove
+
+	// find pages to remove
+	lock.RLock()
 	for _, v := range register {
 		if currTime > v.expiration {
-			removePage(v.id)
-			removeFromRegister(v.id)
+			ids = append(ids, v.id)
 		}
+	}
+	lock.RUnlock()
+
+	// remove them
+	for _, id := range ids {
+		removePage(id)
+		removeFromRegister(id)
 	}
 }
