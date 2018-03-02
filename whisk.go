@@ -8,11 +8,8 @@ import (
 )
 
 const (
-	idCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	idLength     = 6
-	pagesDir     = "pages/"
-	logFilePath  = "log.whisk"
-	port         = "8081"
+	logFilePath = "log.whisk"
+	port        = "8081"
 )
 
 // Launch starts server, initializes log, register, etc.

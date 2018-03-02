@@ -10,6 +10,12 @@ import (
 	"time"
 )
 
+const (
+	idCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	idLength     = 6
+	pagesDir     = "pages/"
+)
+
 // Page represents single page
 type Page struct {
 	id         string
