@@ -22,10 +22,6 @@ func Launch() {
 	initializeTimer()
 
 	http.HandleFunc("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {})
-	http.HandleFunc("/new", func(w http.ResponseWriter, r *http.Request) {
-		createPage("./sample.md")
-	}) // temporary
-
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		address := r.URL.Path[1:]
 		if len(address) == 0 {
@@ -38,9 +34,16 @@ func Launch() {
 		}
 		http.ServeFile(w, r, pagesDir+address+".html")
 	})
+
 	log.Printf("Starting server on port %s...\n", port)
 	fmt.Printf("Starting server on port %s...\n", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
+}
+
+// Cleanup sweeps/writes the page register
+func Cleanup() {
+	sweepRegister()
+	writeRegister()
 }
 
 // initializeLog creates log file if it doesn't exist, sets output
@@ -57,8 +60,7 @@ func initializeTimer() {
 	ticker := time.NewTicker(cleanInterval)
 	go func() {
 		for range ticker.C {
-			sweepRegister()
-			writeRegister()
+			Cleanup()
 		}
 	}()
 }

@@ -94,7 +94,7 @@ func sweepRegister() {
 	currTime := time.Now().Unix()
 	ids := []string{} // pages to remove
 
-	// find pages to remove
+	// find expired pages
 	lock.RLock()
 	for _, v := range register {
 		if currTime > v.expiration {
