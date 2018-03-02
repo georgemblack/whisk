@@ -11,12 +11,12 @@ import (
 
 const dataFilePath = "register.whisk"
 
-var pageRegister map[string]Page
+var register map[string]Page
 
 // initializeRegister allocates memory for page register,
 // imports existing pages
 func initializeRegister() {
-	pageRegister = make(map[string]Page)
+	register = make(map[string]Page)
 
 	// open register file, if it exists
 	input, err := os.Open(dataFilePath)
@@ -51,17 +51,17 @@ func initializeRegister() {
 
 // addToRegister a single page object
 func addToRegister(page Page) {
-	pageRegister[page.id] = page
+	register[page.id] = page
 }
 
 // removeFromRegister a single page matching id
 func removeFromRegister(id string) {
-	delete(pageRegister, id)
+	delete(register, id)
 }
 
 // pageInRegister returns true if id is in register
 func pageInRegister(id string) bool {
-	_, ok := pageRegister[id]
+	_, ok := register[id]
 	return ok
 }
 
@@ -72,7 +72,7 @@ func writeRegister() {
 		log.Printf("Error creating %s: %s\n", dataFilePath, err)
 		return
 	}
-	for _, v := range pageRegister {
+	for _, v := range register {
 		data := []byte(v.id + "|" + strconv.FormatInt(v.expiration, 10) + "\n")
 		output.Write(data)
 	}
@@ -82,7 +82,7 @@ func writeRegister() {
 // sweepRegister removes pages that have expired
 func sweepRegister() {
 	currTime := time.Now().Unix()
-	for _, v := range pageRegister {
+	for _, v := range register {
 		if currTime > v.expiration {
 			removePage(v.id)
 			removeFromRegister(v.id)
