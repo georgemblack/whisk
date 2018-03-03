@@ -1,0 +1,61 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+}
+
+p {
+    color: #2d3436;
+}
+
+.body {
+    max-width: 45em;
+    margin: 0 auto 0 auto;
+    padding: 0 1em 0 1em;
+}
+
+.header {
+    text-align: center;
+    padding: 1.15em;
+    background: linear-gradient(70deg, #b23371, #b233b0);
+}
+
+.logo {
+    max-width: 16em;
+    display: inline-block;
+}
+
+.logo img {
+    width: 100%;
+}
+
+.tagline {
+    font-size: 1.15em;
+    color: #f7f7f7;
+}
+
+.main {
+    margin: 1.75em 0 1.75em 0;
+}
+
+.instruction-container {
+    margin: 1.75em 0 0 0;
+}
+
+.instruction-container p {
+    padding-top: 0.75em;
+}
+
+.instruction-number {
+    width: 26px;
+    height: 26px;
+    float: left;
+    margin: 0 0.5em 0 0;
+    padding: 8px;
+    text-align: center;
+    border-radius: 100%;
+    background-color: #e843a9;
+    color: #ffffff;
+    font-size: 1.25em;
+}
