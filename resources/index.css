@@ -18,7 +18,7 @@ p {
 .header {
     text-align: center;
     padding: 1.15em;
-    background: linear-gradient(70deg, #b23371, #b233b0);
+    border-bottom: 4px solid #fd79a8;
 }
 
 .logo {
@@ -32,7 +32,6 @@ p {
 
 .tagline {
     font-size: 1.15em;
-    color: #f7f7f7;
 }
 
 .main {
@@ -55,7 +54,7 @@ p {
     padding: 8px;
     text-align: center;
     border-radius: 100%;
-    background-color: #e843a9;
+    background-color: #e84393ce;
     color: #ffffff;
     font-size: 1.25em;
 }
