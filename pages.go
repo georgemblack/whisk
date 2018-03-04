@@ -22,21 +22,24 @@ type Page struct {
 	expiration int64 // Unix timestamp
 }
 
-// createPage from markdown file
-func createPage(sourcePath string) {
-	// read sample file
+// createPageFromFile
+func createPageFromFile(sourcePath string) {
 	source, err := ioutil.ReadFile(sourcePath)
 	if err != nil {
 		log.Printf("Error creating page: %s\n", err)
 		return
 	}
+	createPage(source)
+}
 
+// createPage from source
+func createPage(source []byte) {
 	// safely convert to html
 	htmlUnsafe := blackfriday.Run(source)
 	htmlSafe := bluemonday.UGCPolicy().SanitizeBytes(htmlUnsafe)
 
 	// register
-	offset := time.Hour * 1
+	offset := time.Minute * 2
 	page := Page{
 		id:         generatePageID(),
 		expiration: time.Now().Add(offset).Unix(),

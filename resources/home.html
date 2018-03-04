@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <head>
+        <!-- page title -->
+        <title>Whisk | Make Webpages with Markdown, Fast</title>
+        <!-- link to fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Roboto:700" rel="stylesheet">
+        <!-- primary stylesheet -->
+        <link rel="stylesheet" type="text/css" href="/resources/main.css">
+        <!-- icons and theme -->
+        <link rel="apple-touch-icon" sizes="180x180" href="/resources/icons/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/resources/icons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/resources/icons/favicon-16x16.png">
+        <link rel="manifest" href="/resources/icons/site.webmanifest">
+        <link rel="mask-icon" href="/resources/icons/safari-pinned-tab.svg" color="#e84393">
+        <link rel="shortcut icon" href="/resources/icons/favicon.ico">
+        <meta name="msapplication-TileColor" content="#603cba">
+        <meta name="msapplication-config" content="/resources/icons/browserconfig.xml">
+        <meta name="theme-color" content="#f7f7f7">
+        <!-- meta information -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Create a webpage using markdown, fast!">
+        <meta name="author" content="George Black">
+        <!-- Twitter card data -->
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@georgeblackme">
+        <meta name="twitter:title" content="Whisk | Make Webpages with Markdown, Fast">
+        <meta name="twitter:description" content="Create a webpage using markdown, fast!">
+        <meta name="twitter:image" content="/resources/logo-circle.png">
+        <meta name="twitter:image:alt" content="Whisk logo">
+        <meta name="twitter:url" content="https://whisk.ws">
+        <meta name="twitter:creator" content="@georgeblackme">
+        <!-- Open Graph tags -->
+        <meta property="og:title" content="Whisk | Make Webpages with Markdown, Fast" />
+        <meta property="og:url" content="https://whisk.ws" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="/resources/logo-circle.png" />
+        <meta property="og:description" content="Create a webpage using markdown, fast!" />
+    </head>
+</head>
+
+<body class="body">
+    <header class="header">
+        <div class="logo">
+            <img src="/resources/logo.png" alt="Whisk">
+        </div>
+        <p class="tagline">Make webpages using markdown,
+            <em>fast</em>.</p>
+    </header>
+    <main class="main">
+        <div class="instruction-container">
+            <div class="instruction-number">1</div>
+            <p>Paste your markdown file in the text box below:</p>
+            <div class="textarea-container">
+                <textarea class="textarea" name="body" form="whisk-form"></textarea>
+            </div>
+        </div>
+        <div class="instruction-container">
+            <div class="instruction-number">2</div>
+            <p>Choose a template for your webpage:</p>
+        </div>
+        <div class="instruction-container">
+            <div class="instruction-number">3</div>
+            <p>Whisk together your webpage!</p>
+            <form action="/new" method="post" id="whisk-form">
+                <input type="submit" value="new">
+            </form>
+        </div>
+    </main>
+    <footer class="footer">
+
+    </footer>
+</body>
+
+</html>

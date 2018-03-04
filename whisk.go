@@ -21,24 +21,28 @@ func Launch() {
 	initializeRegister()
 	initializeTimer()
 
-	/*
-		http.HandleFunc("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {
-			http.ServeFile(w, r, "/resources/icons/favicon.ico")
-		})
-	*/
-
 	http.HandleFunc("/resources/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, r.URL.Path[1:])
+	})
+
+	http.HandleFunc("/new", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == "POST" {
+			r.ParseForm()
+			createPage([]byte(r.Form["body"][0]))
+			http.ServeFile(w, r, "resources/new.html")
+		} else {
+			http.ServeFile(w, r, "resources/error.html")
+		}
 	})
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		address := r.URL.Path[1:]
 		if len(address) == 0 {
-			http.ServeFile(w, r, "resources/index.html")
+			http.ServeFile(w, r, "resources/home.html")
 			return
 		}
 		if len(address) != idLength || !pageInRegister(address) {
-			http.ServeFile(w, r, "resources/404.html")
+			http.ServeFile(w, r, "resources/error.html")
 			return
 		}
 		http.ServeFile(w, r, pagesDir+address+".html")
