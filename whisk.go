@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -28,7 +29,9 @@ func Launch() {
 	http.HandleFunc("/new", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
 			r.ParseForm()
-			createPage([]byte(r.Form["body"][0]))
+			// HTML forms use '\r\n' instead of '\n'
+			body := strings.Replace(r.Form["body"][0], "\r\n", "\n", -1)
+			createPage([]byte(body))
 			http.ServeFile(w, r, "resources/new.html")
 		} else {
 			http.ServeFile(w, r, "resources/error.html")
