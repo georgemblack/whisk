@@ -19,8 +19,8 @@ const (
 
 // Page represents single page
 type page struct {
-	id         string
-	expiration int64 // Unix timestamp
+	ID         string
+	Expiration int64 // Unix timestamp
 }
 
 // page content
@@ -30,34 +30,39 @@ type pageData struct {
 }
 
 // createPageFromFile
-func createPageFromFile(sourcePath string) {
+func createPageFromFile(sourcePath string) (page, error) {
+	var newPage page
+
 	source, err := ioutil.ReadFile(sourcePath)
 	if err != nil {
 		log.Printf("Error creating page: %s\n", err)
-		return
+		return newPage, err
 	}
-	createPage(source)
+	newPage, err = createPage(source)
+	return newPage, err
 }
 
 // createPage from source
-func createPage(source []byte) {
+func createPage(source []byte) (page, error) {
+	var newPage page
+
 	// safely convert to html
 	htmlUnsafe := blackfriday.Run(source)
 	htmlSafe := bluemonday.UGCPolicy().SanitizeBytes(htmlUnsafe)
 
 	// register
 	offset := time.Minute * 2
-	page := page{
-		id:         generatePageID(),
-		expiration: time.Now().Add(offset).Unix(),
+	newPage = page{
+		ID:         generatePageID(),
+		Expiration: time.Now().Add(offset).Unix(),
 	}
-	addToRegister(page)
+	addToRegister(newPage)
 
 	// create new file
-	output, err := os.Create(pagesDir + page.id + ".html")
+	output, err := os.Create(pagesDir + newPage.ID + ".html")
 	if err != nil {
 		log.Printf("Error creating page: %s\n", err)
-		return
+		return newPage, err
 	}
 	defer output.Close()
 
@@ -65,9 +70,10 @@ func createPage(source []byte) {
 	tmpl, err := template.ParseFiles("templates/main.html")
 	if err != nil {
 		log.Printf("Error parsing template: %s\n", err)
-		return
+		return newPage, err
 	}
 	tmpl.Execute(output, pageData{Title: "Whisk Page", Body: string(htmlSafe)})
+	return newPage, nil
 }
 
 // removePage from file system and register

@@ -2,6 +2,7 @@ package whisk
 
 import (
 	"fmt"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
@@ -15,26 +16,36 @@ const (
 	port          = "8081"
 )
 
+var confirmPage *template.Template // confirmation page
+
 // Launch starts server, initializes log, register, etc.
 func Launch() {
 
 	initializeLog()
 	initializeRegister()
+	initializeTemplates()
 	initializeTimer()
 
+	// request handlers
 	http.HandleFunc("/resources/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, r.URL.Path[1:])
 	})
 
 	http.HandleFunc("/new", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
-			r.ParseForm()
 			// HTML forms use '\r\n' instead of '\n'
+			r.ParseForm()
 			body := strings.Replace(r.Form["body"][0], "\r\n", "\n", -1)
-			createPage([]byte(body))
-			http.ServeFile(w, r, "resources/new.html")
+
+			// make new page, redirect to confirmation
+			newPage, err := createPage([]byte(body))
+			if err != nil {
+				http.ServeFile(w, r, "resources/error.html")
+				return
+			}
+			confirmPage.Execute(w, newPage)
 		} else {
-			http.ServeFile(w, r, "resources/error.html")
+			http.ServeFile(w, r, "resources/404.html")
 		}
 	})
 
@@ -45,7 +56,7 @@ func Launch() {
 			return
 		}
 		if len(address) != idLength || !pageInRegister(address) {
-			http.ServeFile(w, r, "resources/error.html")
+			http.ServeFile(w, r, "resources/404.html")
 			return
 		}
 		http.ServeFile(w, r, pagesDir+address+".html")
@@ -69,6 +80,15 @@ func initializeLog() {
 		log.Fatalf("Error initializing log file: %s\n", err)
 	}
 	log.SetOutput(f)
+}
+
+// initializeTemplates
+func initializeTemplates() {
+	var err error
+	confirmPage, err = template.ParseFiles("resources/new.html")
+	if err != nil {
+		log.Fatalf("Error initializing template: %s\n", err)
+	}
 }
 
 // initializeTimer will sweep/write the register on given interval

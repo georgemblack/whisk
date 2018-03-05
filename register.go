@@ -43,8 +43,8 @@ func initializeRegister() {
 			return
 		}
 		addToRegister(page{
-			id:         line[0],
-			expiration: exp,
+			ID:         line[0],
+			Expiration: exp,
 		})
 		numPages++
 	}
@@ -54,7 +54,7 @@ func initializeRegister() {
 // addToRegister a single page object
 func addToRegister(page page) {
 	lock.Lock()
-	register[page.id] = page
+	register[page.ID] = page
 	lock.Unlock()
 }
 
@@ -82,7 +82,7 @@ func writeRegister() {
 	}
 	lock.RLock()
 	for _, v := range register {
-		data := []byte(v.id + "|" + strconv.FormatInt(v.expiration, 10) + "\n")
+		data := []byte(v.ID + "|" + strconv.FormatInt(v.Expiration, 10) + "\n")
 		output.Write(data)
 	}
 	lock.RUnlock()
@@ -97,8 +97,8 @@ func sweepRegister() {
 	// find expired pages
 	lock.RLock()
 	for _, v := range register {
-		if currTime > v.expiration {
-			ids = append(ids, v.id)
+		if currTime > v.Expiration {
+			ids = append(ids, v.ID)
 		}
 	}
 	lock.RUnlock()
