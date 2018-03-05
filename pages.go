@@ -18,7 +18,7 @@ const (
 )
 
 // Page represents single page
-type Page struct {
+type page struct {
 	id         string
 	expiration int64 // Unix timestamp
 }
@@ -47,7 +47,7 @@ func createPage(source []byte) {
 
 	// register
 	offset := time.Minute * 2
-	page := Page{
+	page := page{
 		id:         generatePageID(),
 		expiration: time.Now().Add(offset).Unix(),
 	}

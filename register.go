@@ -12,13 +12,13 @@ import (
 
 const dataFilePath = "register.whisk"
 
-var register map[string]Page
+var register map[string]page
 var lock = sync.RWMutex{}
 
 // initializeRegister allocates memory for page register,
 // imports existing pages
 func initializeRegister() {
-	register = make(map[string]Page)
+	register = make(map[string]page)
 
 	// open register file, if it exists
 	input, err := os.Open(dataFilePath)
@@ -42,7 +42,7 @@ func initializeRegister() {
 			log.Printf("Error parsing %s: %s", dataFilePath, err)
 			return
 		}
-		addToRegister(Page{
+		addToRegister(page{
 			id:         line[0],
 			expiration: exp,
 		})
@@ -52,7 +52,7 @@ func initializeRegister() {
 }
 
 // addToRegister a single page object
-func addToRegister(page Page) {
+func addToRegister(page page) {
 	lock.Lock()
 	register[page.id] = page
 	lock.Unlock()
