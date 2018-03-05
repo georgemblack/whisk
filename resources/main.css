@@ -43,38 +43,39 @@ p {
 }
 
 .instruction-container p {
-    padding: 0.75em 0 0 3.25em;
+    padding: 0.6em 0 0 2.75em;
 }
 
 .instruction-number {
-    width: 26px;
-    height: 26px;
+    width: 20px;
+    height: 20px;
     float: left;
     padding: 8px;
     text-align: center;
     border-radius: 100%;
     background-color: #e84393ce;
     color: #ffffff;
-    font-size: 1.25em;
+    font-size: 1.15em;
 }
 
 .textarea-container {
     right: 0;
-    margin: 1em 0 0 3.25em;
+    margin: 1em 0 0 2.75em;
 }
 
 .textarea {
-    height: 12em;
+    height: 16em;
     width: 100%;
     display: inline-block;
-    font-size: 1em;
+    font-size: 0.85em;
+    padding: 0.25em 0.45em 0.25em 0.45em;
+    font-family: "Roboto Mono", monospace;
     box-sizing: border-box;
     border: 2px solid rgba(0, 0, 0, 0.05);
     border-radius: 0.25em;
-    padding: 0.75em 1em 0.75em 1em;
+    box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.05);
     color: #2d3436;
     background-color: #ffffff;
-    box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.05);
     resize: none;
     outline: none;
 }
