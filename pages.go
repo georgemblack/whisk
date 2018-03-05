@@ -7,6 +7,7 @@ import (
 	"log"
 	"math/rand"
 	"os"
+	"text/template"
 	"time"
 )
 
@@ -20,6 +21,12 @@ const (
 type Page struct {
 	id         string
 	expiration int64 // Unix timestamp
+}
+
+// page content
+type pageData struct {
+	Title string
+	Body  string
 }
 
 // createPageFromFile
@@ -46,14 +53,21 @@ func createPage(source []byte) {
 	}
 	addToRegister(page)
 
-	// write new file
+	// create new file
 	output, err := os.Create(pagesDir + page.id + ".html")
 	if err != nil {
 		log.Printf("Error creating page: %s\n", err)
 		return
 	}
-	output.Write(htmlSafe)
-	output.Close()
+	defer output.Close()
+
+	// build template and write
+	tmpl, err := template.ParseFiles("templates/main.html")
+	if err != nil {
+		log.Printf("Error parsing template: %s\n", err)
+		return
+	}
+	tmpl.Execute(output, pageData{Title: "Whisk Page", Body: string(htmlSafe)})
 }
 
 // removePage from file system and register
