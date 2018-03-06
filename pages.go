@@ -12,9 +12,9 @@ import (
 )
 
 const (
+	pagesDir     = dataDir + "/pages/"
 	idCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	idLength     = 6
-	pagesDir     = "data/pages/"
 )
 
 // Page represents single page
@@ -27,6 +27,15 @@ type page struct {
 type pageData struct {
 	Title string
 	Body  string
+}
+
+// initPages
+// create pages dir if it doesn't already exist
+func initPages() {
+	err := os.MkdirAll(pagesDir, 0755)
+	if err != nil {
+		log.Fatalf("Error creating pages dir: %s\n", err)
+	}
 }
 
 // createPageFromFile

@@ -11,7 +11,8 @@ import (
 )
 
 const (
-	logFilePath   = "data/log.whisk"
+	dataDir       = "data"
+	logFilePath   = dataDir + "/log.whisk"
 	cleanInterval = time.Minute * 15
 	port          = "8081"
 )
@@ -21,6 +22,13 @@ var confirmPage *template.Template // confirmation page
 // Launch starts server, initializes log, register, etc.
 func Launch() {
 
+	// create data directory
+	err := os.MkdirAll(dataDir, 0755)
+	if err != nil {
+		log.Fatalf("Error creating data directory: %s\n", err)
+	}
+
+	initPages()
 	initializeLog()
 	initializeRegister()
 	initializeTemplates()
