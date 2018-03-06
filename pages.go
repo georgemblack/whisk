@@ -14,7 +14,7 @@ import (
 const (
 	idCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	idLength     = 6
-	pagesDir     = "pages/"
+	pagesDir     = "data/pages/"
 )
 
 // Page represents single page
@@ -67,7 +67,7 @@ func createPage(source []byte) (page, error) {
 	defer output.Close()
 
 	// build template and write
-	tmpl, err := template.ParseFiles("templates/main.html")
+	tmpl, err := template.ParseFiles("resources/page-template.html")
 	if err != nil {
 		log.Printf("Error parsing template: %s\n", err)
 		return newPage, err

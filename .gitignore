@@ -41,6 +41,10 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+### Sass ###
+.sass-cache/
+*.css.map
+
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
@@ -53,3 +57,4 @@ Temporary Items
 pages
 *.whisk
 sample.md
+public/styles/*

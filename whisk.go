@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	logFilePath   = "log.whisk"
+	logFilePath   = "data/log.whisk"
 	cleanInterval = time.Minute * 15
 	port          = "8081"
 )
@@ -27,7 +27,7 @@ func Launch() {
 	initializeTimer()
 
 	// request handlers
-	http.HandleFunc("/resources/", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/public/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, r.URL.Path[1:])
 	})
 
@@ -85,7 +85,7 @@ func initializeLog() {
 // initializeTemplates
 func initializeTemplates() {
 	var err error
-	confirmPage, err = template.ParseFiles("resources/new.html")
+	confirmPage, err = template.ParseFiles("resources/confirm-template.html")
 	if err != nil {
 		log.Fatalf("Error initializing template: %s\n", err)
 	}

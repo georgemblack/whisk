@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-const dataFilePath = "register.whisk"
+const dataFilePath = "data/register.whisk"
 
 var register map[string]page
 var lock = sync.RWMutex{}
