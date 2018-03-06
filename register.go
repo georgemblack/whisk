@@ -15,9 +15,9 @@ const dataFilePath = "data/register.whisk"
 var register map[string]page
 var lock = sync.RWMutex{}
 
-// initializeRegister allocates memory for page register,
+// initRegister allocates memory for page register,
 // imports existing pages
-func initializeRegister() {
+func initRegister() {
 	register = make(map[string]page)
 
 	// open register file, if it exists

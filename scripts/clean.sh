@@ -1,1 +1,1 @@
-rm -rf ./public/styles/* ./data/pages/* ./data/log.whisk ./data/register.whisk
+rm -rf ./public/styles/* ./data*

@@ -17,7 +17,7 @@ const (
 	idLength     = 6
 )
 
-// Page represents single page
+// page represents single page
 type page struct {
 	ID         string
 	Expiration int64 // Unix timestamp

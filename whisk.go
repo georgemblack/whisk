@@ -21,20 +21,59 @@ var confirmPage *template.Template // confirmation page
 
 // Launch starts server, initializes log, register, etc.
 func Launch() {
+	initDataDir()
+	initLog()
+	initHome()
+	initPages()
+	initRegister()
+	startSweep()
+	startServer()
+}
 
-	// create data directory
+// Cleanup sweeps/writes the page register
+func Cleanup() {
+	sweepRegister()
+	writeRegister()
+}
+
+// initDataDir creates data directory if it doesn't exist
+func initDataDir() {
 	err := os.MkdirAll(dataDir, 0755)
 	if err != nil {
 		log.Fatalf("Error creating data directory: %s\n", err)
 	}
+}
 
-	initPages()
-	initializeLog()
-	initializeRegister()
-	initializeTemplates()
-	initializeTimer()
+// initLog creates log file if it doesn't exist, sets output
+func initLog() {
+	f, err := os.OpenFile(logFilePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		log.Fatalf("Error initializing log file: %s\n", err)
+	}
+	log.SetOutput(f)
+}
 
-	// request handlers
+// initHome initializes templates used on homepage
+func initHome() {
+	var err error
+	confirmPage, err = template.ParseFiles("resources/confirm-template.html")
+	if err != nil {
+		log.Fatalf("Error initializing template: %s\n", err)
+	}
+}
+
+// startSweep will sweep/write the register on given interval
+func startSweep() {
+	ticker := time.NewTicker(cleanInterval)
+	go func() {
+		for range ticker.C {
+			Cleanup()
+		}
+	}()
+}
+
+// startServer sets up http routes, then listens/serves
+func startServer() {
 	http.HandleFunc("/public/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, r.URL.Path[1:])
 	})
@@ -73,38 +112,4 @@ func Launch() {
 	log.Printf("Starting server on port %s...\n", port)
 	fmt.Printf("Starting server on port %s...\n", port)
 	log.Fatal(http.ListenAndServe(":"+port, nil))
-}
-
-// Cleanup sweeps/writes the page register
-func Cleanup() {
-	sweepRegister()
-	writeRegister()
-}
-
-// initializeLog creates log file if it doesn't exist, sets output
-func initializeLog() {
-	f, err := os.OpenFile(logFilePath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-	if err != nil {
-		log.Fatalf("Error initializing log file: %s\n", err)
-	}
-	log.SetOutput(f)
-}
-
-// initializeTemplates
-func initializeTemplates() {
-	var err error
-	confirmPage, err = template.ParseFiles("resources/confirm-template.html")
-	if err != nil {
-		log.Fatalf("Error initializing template: %s\n", err)
-	}
-}
-
-// initializeTimer will sweep/write the register on given interval
-func initializeTimer() {
-	ticker := time.NewTicker(cleanInterval)
-	go func() {
-		for range ticker.C {
-			Cleanup()
-		}
-	}()
 }
