@@ -27,6 +27,7 @@ type page struct {
 type pageData struct {
 	Title string
 	Body  string
+	Theme string
 }
 
 // initPages
@@ -81,7 +82,7 @@ func createPage(source []byte) (page, error) {
 		log.Printf("Error parsing template: %s\n", err)
 		return newPage, err
 	}
-	tmpl.Execute(output, pageData{Title: "Whisk Page", Body: string(htmlSafe)})
+	tmpl.Execute(output, pageData{Title: "Whisk Page", Body: string(htmlSafe), Theme: "minimal"})
 	return newPage, nil
 }
 
