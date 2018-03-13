@@ -1,20 +1,38 @@
+$primary-theme-light: #fd79a8;
+$primary-theme-dark: #e84393ce;
+$body-text-color: #2d3436;
+$font-family-header: "Roboto",sans-serif;
+$font-family-body: "Roboto",sans-serif;
+$font-family-mono: "Roboto Mono",monospace;
+$font-weight-normal: 700;
+$font-weight-heavy: 900;
 * {
     margin: 0;
     padding: 0;
-    font-family: "Roboto", sans-serif;
-    font-weight: 700;
+}
+
+h1,
+h2,
+h3 {
+    font-family: $font-family-header;
+    font-weight: $font-weight-heavy;
 }
 
 p {
-    color: #2d3436;
+    font-size: 1em;
+    font-family: $font-family-body;
+    font-weight: $font-weight-normal;
+    color: $body-text-color;
 }
 
 a {
+    font-size: 1em;
+    font-family: $font-family-body;
+    font-weight: $font-weight-normal;
     text-decoration: none;
-    color: #e84393ce;
-
-    &:hover{
-        color: #fd79a8;
+    color: $primary-theme-dark;
+    &:hover {
+        color: $primary-theme-light;
         transition: 0.1s linear;
     }
 }
@@ -28,16 +46,15 @@ a {
 .header {
     text-align: center;
     padding: 1.15em;
-    border-bottom: 4px solid #fd79a8;
+    border-bottom: 4px solid $primary-theme-light;
 }
 
 .logo {
     max-width: 16em;
     display: inline-block;
-}
-
-.logo img {
-    width: 100%;
+    img {
+        width: 100%;
+    }
 }
 
 .tagline {
@@ -50,10 +67,9 @@ a {
 
 .instruction-container {
     margin: 1.75em 0 0 0;
-}
-
-.instruction-container p {
-    padding: 0.6em 0 0 2.75em;
+    p {
+        padding: 0.6em 0 0 2.75em;
+    }
 }
 
 .instruction-number {
@@ -61,11 +77,13 @@ a {
     height: 20px;
     float: left;
     padding: 8px;
+    font-size: 1.15em;
+    font-family: $font-family-body;
+    font-family: $font-weight-heavy;
     text-align: center;
     border-radius: 100%;
-    background-color: #e84393ce;
+    background-color: $primary-theme-dark;
     color: #ffffff;
-    font-size: 1.15em;
 }
 
 .textarea-container {
@@ -76,32 +94,27 @@ a {
 .textarea {
     height: 16em;
     width: 100%;
-    display: inline-block;
-    font-size: 0.85em;
     padding: 0.25em 0.45em 0.25em 0.45em;
-    font-family: "Roboto Mono", monospace;
+    font-size: 0.85em;
+    font-family: $font-family-mono;
     box-sizing: border-box;
     border: 2px solid rgba(0, 0, 0, 0.05);
     border-radius: 0.25em;
     box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.05);
     color: #2d3436;
-    background-color: #ffffff;
     resize: none;
     outline: none;
-}
-
-.textarea:focus {
-    border: 2px solid rgba(0, 0, 0, 0.15);
-    transition: 0.05s linear;
+    &:focus {
+        border: 2px solid rgba(0, 0, 0, 0.15);
+        transition: 0.05s linear;
+    }
 }
 
 .error {
     text-align: center;
-
     .logo {
         max-width: 12em;
     }
-
     p {
         font-size: 1.15em;
         margin: 1em 0 1em 0;
