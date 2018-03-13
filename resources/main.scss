@@ -9,6 +9,16 @@ p {
     color: #2d3436;
 }
 
+a {
+    text-decoration: none;
+    color: #e84393ce;
+
+    &:hover{
+        color: #fd79a8;
+        transition: 0.1s linear;
+    }
+}
+
 .body {
     max-width: 45em;
     margin: 0 auto 0 auto;
@@ -83,4 +93,17 @@ p {
 .textarea:focus {
     border: 2px solid rgba(0, 0, 0, 0.15);
     transition: 0.05s linear;
+}
+
+.error {
+    text-align: center;
+
+    .logo {
+        max-width: 12em;
+    }
+
+    p {
+        font-size: 1.15em;
+        margin: 1em 0 1em 0;
+    }
 }
