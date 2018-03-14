@@ -72,7 +72,7 @@ func startSweep() {
 	}()
 }
 
-// startServer sets up http routes, then listens/serves
+// startServer sets up http routes, listens/serves
 func startServer() {
 	http.HandleFunc("/public/", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, r.URL.Path[1:])
@@ -111,5 +111,12 @@ func startServer() {
 
 	log.Printf("Starting server on port %s...\n", port)
 	fmt.Printf("Starting server on port %s...\n", port)
+
+	go http.ListenAndServe(":80", http.HandlerFunc(redirect)) // redirect http to https
 	log.Fatal(http.ListenAndServeTLS(":"+port, "whisk.ws.crt", "whisk.ws.key", nil))
+}
+
+// redirect to https
+func redirect(w http.ResponseWriter, r *http.Request) {
+	http.Redirect(w, r, "https://whisk.ws"+r.RequestURI, http.StatusMovedPermanently)
 }
