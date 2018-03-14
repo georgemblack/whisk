@@ -14,7 +14,7 @@ const (
 	dataDir       = "data"
 	logFilePath   = dataDir + "/whisk.log"
 	cleanInterval = time.Minute * 15
-	port          = "8081"
+	port          = "443"
 )
 
 var confirmPage *template.Template // confirmation page
