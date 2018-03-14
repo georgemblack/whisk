@@ -110,6 +110,22 @@ a {
     }
 }
 
+.button {
+    margin: 1em 0 0 0;
+    padding: 0.5em 1em 0.5em 1em;
+    font-size: 1em;
+    font-family: $font-family-body;
+    font-weight: $font-weight-normal;
+    color: #ffffff;
+    background-color: $primary-theme-dark;
+    border-radius: 0.5em;
+    border: none;
+    &:hover {
+        background-color: $primary-theme-light;
+        transition: 0.1s linear;
+    }
+}
+
 .error {
     text-align: center;
     .logo {
