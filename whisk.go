@@ -12,7 +12,7 @@ import (
 
 const (
 	dataDir       = "data"
-	logFilePath   = dataDir + "/log.whisk"
+	logFilePath   = dataDir + "/whisk.log"
 	cleanInterval = time.Minute * 15
 	port          = "8081"
 )
