@@ -61,7 +61,7 @@ func createPage(source []byte) (page, error) {
 	htmlSafe := bluemonday.UGCPolicy().SanitizeBytes(htmlUnsafe)
 
 	// register
-	offset := time.Minute * 2
+	offset := time.Hour * 1440 // 60 days
 	newPage = page{
 		ID:         generatePageID(),
 		Expiration: time.Now().Add(offset).Unix(),
