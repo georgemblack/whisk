@@ -54,7 +54,8 @@ Temporary Items
 .history
 
 ### Custom ###
-pages
-*.whisk
-sample.md
+data
 public/styles/*.css
+*.crt
+*.key
+*.md
