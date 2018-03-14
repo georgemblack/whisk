@@ -65,30 +65,9 @@ a {
     margin: 1.75em 0 1.75em 0;
 }
 
-.instruction-container {
-    margin: 1.75em 0 0 0;
-    p {
-        padding: 0.6em 0 0 2.75em;
-    }
-}
-
-.instruction-number {
-    width: 20px;
-    height: 20px;
-    float: left;
-    padding: 8px;
-    font-size: 1.15em;
-    font-family: $font-family-body;
-    font-family: $font-weight-heavy;
-    text-align: center;
-    border-radius: 100%;
-    background-color: $primary-theme-dark;
-    color: #ffffff;
-}
-
 .textarea-container {
     right: 0;
-    margin: 1em 0 0 2.75em;
+    margin: 1em 0 0 0;
 }
 
 .textarea {
@@ -124,6 +103,11 @@ a {
         background-color: $primary-theme-light;
         transition: 0.1s linear;
     }
+}
+
+.new-page-link {
+    margin: 0.5em 0 0 0;
+    font-size: 2em;
 }
 
 .error {

@@ -51,24 +51,13 @@
             <em>fast</em>.</p>
     </header>
     <main class="main">
-        <div class="instruction-container">
-            <div class="instruction-number">1</div>
-            <p>Paste your markdown file in the text box below:</p>
-            <div class="textarea-container">
-                <textarea class="textarea" name="body" form="whisk-form"></textarea>
-            </div>
+        <p>Paste your markdown file in the text area below:</p>
+        <div class="textarea-container">
+            <textarea class="textarea" name="body" form="whisk-form"></textarea>
         </div>
-        <div class="instruction-container">
-            <div class="instruction-number">2</div>
-            <p>Choose a template for your webpage:</p>
-        </div>
-        <div class="instruction-container">
-            <div class="instruction-number">3</div>
-            <p>Whisk together your webpage!</p>
-            <form action="/new" method="post" id="whisk-form">
-                <input class="button" type="submit" value="Create Page">
-            </form>
-        </div>
+        <form action="/new" method="post" id="whisk-form">
+            <input class="button" type="submit" value="Create Page">
+        </form>
     </main>
     <footer class="footer">
 
