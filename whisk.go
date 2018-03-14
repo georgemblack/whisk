@@ -111,5 +111,5 @@ func startServer() {
 
 	log.Printf("Starting server on port %s...\n", port)
 	fmt.Printf("Starting server on port %s...\n", port)
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+	log.Fatal(http.ListenAndServeTLS(":"+port, "whisk.ws.crt", "whisk.ws.key", nil))
 }
