@@ -13,7 +13,7 @@ func main() {
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	go func() {
 		<-c
-		fmt.Print("\nCleaning up...\n")
+		fmt.Print("Cleaning up...\n")
 		whisk.Cleanup()
 		os.Exit(0)
 	}()
