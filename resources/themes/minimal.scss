@@ -143,6 +143,25 @@ blockquote {
     }
 }
 
+table {
+    margin: 1em 0 0 0;
+    width: 100%;
+    font-size: 1em;
+    font-family: $font-family-body;
+    font-weight: $font-weight-normal;
+    line-height: 140%;
+    border-collapse: collapse;
+    td,
+    th {
+        padding: 0.5em 0.75em 0.5em 0.75em;
+        border: 1px solid #e7e7e7;
+    }
+    th {
+        background-color: #e7e7e7;
+        font-weight: $font-weight-heavy;
+    }
+}
+
 hr {
     display: block;
     margin: 2em 0 2em 0;
