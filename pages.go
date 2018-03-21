@@ -1,7 +1,10 @@
 package whisk
 
 import (
+	"bytes"
 	"github.com/microcosm-cc/bluemonday"
+	"github.com/tdewolff/minify"
+	"github.com/tdewolff/minify/html"
 	"gopkg.in/russross/blackfriday.v2"
 	"io/ioutil"
 	"log"
@@ -30,13 +33,27 @@ type pageData struct {
 	Theme string
 }
 
+var minifier *minify.M
+var pageTemplate *template.Template
+
 // initPages
-// create pages dir if it doesn't already exist
 func initPages() {
+
+	// create pages dir if it doesn't exist
 	err := os.MkdirAll(pagesDir, 0755)
 	if err != nil {
 		log.Fatalf("Error creating pages dir: %s\n", err)
 	}
+
+	// parse page template
+	pageTemplate, err = template.ParseFiles("resources/page-template.html")
+	if err != nil {
+		log.Fatalf("Error initializing page template: %s\n", err)
+	}
+
+	// setup minifier
+	minifier = minify.New()
+	minifier.AddFunc("text/html", html.Minify)
 }
 
 // createPageFromFile
@@ -55,34 +72,38 @@ func createPageFromFile(sourcePath string) (page, error) {
 // createPage from source
 func createPage(source []byte) (page, error) {
 	var newPage page
+	var buf bytes.Buffer
 
-	// safely convert to html
-	htmlUnsafe := blackfriday.Run(source)
-	htmlSafe := bluemonday.UGCPolicy().SanitizeBytes(htmlUnsafe)
-
-	// register
+	// create new page struct
 	offset := time.Hour * 1440 // 60 days
 	newPage = page{
 		ID:         generatePageID(),
 		Expiration: time.Now().Add(offset).Unix(),
 	}
-	addToRegister(newPage)
 
-	// create new file
-	output, err := os.Create(pagesDir + newPage.ID + ".html")
+	// safely convert markdown to html
+	htmlUnsafe := blackfriday.Run(source)
+	htmlSafe := bluemonday.UGCPolicy().SanitizeBytes(htmlUnsafe)
+
+	// execute template, store in buf
+	pageTemplate.Execute(&buf, pageData{Title: "Whisk Page", Body: string(htmlSafe), Theme: "minimal"})
+
+	// minify data
+	htmlMin, err := minifier.Bytes("text/html", buf.Bytes())
 	if err != nil {
 		log.Printf("Error creating page: %s\n", err)
 		return newPage, err
 	}
-	defer output.Close()
 
-	// build template and write
-	tmpl, err := template.ParseFiles("resources/page-template.html")
+	// write to file
+	path := pagesDir + newPage.ID + ".html"
+	err = ioutil.WriteFile(path, htmlMin, 0644)
 	if err != nil {
-		log.Printf("Error parsing template: %s\n", err)
+		log.Printf("Error creating page: %s\n", err)
 		return newPage, err
 	}
-	tmpl.Execute(output, pageData{Title: "Whisk Page", Body: string(htmlSafe), Theme: "minimal"})
+
+	addToRegister(newPage) // register new page
 	return newPage, nil
 }
 
